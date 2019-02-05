@@ -1,0 +1,12 @@
+**/**/node_modules
+npm-debug.log
+.DS_Store
+/*.env
+.env
+dist/
+*.png
+image.db
+.idea
+*.csv
+dump.rdb
+/*.txt
