@@ -1,33 +1,14 @@
-import koa from 'koa'
-import koa_bodyparser from 'koa-bodyparser'
-import json from 'koa-json'
-import logger from 'koa-logger'
-import onerror from 'koa-onerror'
+import * as Koa from 'koa'
 
-import index from './routes/index'
-import users from './routes/users'
+import { config } from './config'
+import { logger } from './logging'
+import { routes } from './routes'
 
-const app = koa()
+const app = new Koa()
 
-// error handler
-onerror(app)
+app.use(logger)
+app.use(routes)
 
-// global middlewares
-app.use(koa_bodyparser())
-app.use(json())
-app.use(logger())
+app.listen(config.port)
 
-app.use(function *(next) {
-    const start: Date = new Date()
-    yield next
-    const ms: number = new Date().valueOf() - start.valueOf()
-    console.log(`${this.method} ${this.url} - ${ms}`)
-})
-
-// routes definition
-app.use(index.routes(), index.allowedMethods())
-
-// error-handling
-app.on('error', (err, ctx) => {
-    console.error('server error', err, ctx)
-})
+console.log(`Server running on port ${config.port}`)
