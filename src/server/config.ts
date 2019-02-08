@@ -4,8 +4,8 @@ export interface IConfig {
     prettyLog: boolean
 }
 
-const config = {
-    port: process.env.NODE_PORT || 3000,
+const config: IConfig = {
+    port: Number(process.env.NODE_PORT) || 3000,
     prettyLog: process.env.NODE_ENV === 'development',
 }
 
