@@ -1,6 +1,5 @@
 import * as Koa from 'koa'
 import * as bodyParser from 'koa-body'
-import * as errorHandler from 'koa-error'
 import * as onError from 'koa-onerror'
 
 import { config } from './server/config'
@@ -15,7 +14,6 @@ app.use(logger)
 app.use(bodyParser())
 app.use(data)
 app.use(index)
-app.use(errorHandler)
 
 app.listen(config.port)
 
