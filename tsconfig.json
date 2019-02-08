@@ -5,7 +5,10 @@
         "noImplicitAny": false,
         "sourceMap": false,
         "outDir": "dist",
-        "jsx": "react"
+        "jsx": "react",
+        "types": [
+            "koa-body"
+        ]
     },
     "exclude": [
 	    "node_modules"

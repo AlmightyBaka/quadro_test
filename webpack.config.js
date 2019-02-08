@@ -1,4 +1,5 @@
 const nodeExternals = require('webpack-node-externals')
+const NodemonPlugin = require('nodemon-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = [{
@@ -6,7 +7,7 @@ module.exports = [{
     mode: "none",
     entry: './src/index.ts',
     target: 'node',
-    externals: [nodeExternals()],
+    externals: [nodeExternals(), { crypto: 'null'}],
     output: {
         filename: 'bundle.js',
         path: __dirname + '/dist',
@@ -30,5 +31,6 @@ module.exports = [{
     },
     plugins: [
         new webpack.BannerPlugin({ banner: '#!/usr/bin/env node', raw: true }),
+        new NodemonPlugin(),
     ],
 }]
