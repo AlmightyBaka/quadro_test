@@ -6,7 +6,13 @@ const router = new Router()
 router.prefix('/data')
 
 router.get('/', async (ctx) => {
-    ctx.body = 'data api'
+    if (!DataModel.CheckGetInput(ctx.query)) {
+        ctx.status = 400
+        ctx.body = 'bad request'
+        return
+    }
+
+    ctx.body = await DataModel.GetRow(ctx.query)
 })
 
 router.post('/', async (ctx) => {

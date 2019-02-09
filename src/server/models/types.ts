@@ -1,5 +1,7 @@
 import * as Joi from 'joi'
 
+type Pagination = { page: number, size: number }
+
 type Row = {
     row?: {
         title?: string,
@@ -10,6 +12,12 @@ type Row = {
     },
 }
 
+type Get = {
+    id?: number,
+    sortBy?: string,
+    pagination?: Pagination,
+}
+
 const RowSchema = Joi.object().keys({
     title: Joi.string().required(),
     date: Joi.string().required(),
@@ -18,4 +26,9 @@ const RowSchema = Joi.object().keys({
     image: Joi.string().required(),
 })
 
-export { Row, RowSchema }
+const GetSchema = Joi.object().keys({
+    id: Joi.number(),
+    sortBy: Joi.string(),
+})
+
+export { Pagination, Row, Get, RowSchema, GetSchema }
