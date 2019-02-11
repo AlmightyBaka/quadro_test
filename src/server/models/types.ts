@@ -15,7 +15,8 @@ type Row = {
 type Get = {
     id?: number,
     sortBy?: string,
-    pagination?: Pagination,
+    page?: number,
+    size?: number,
 }
 
 const RowSchema = Joi.object().keys({
@@ -29,6 +30,8 @@ const RowSchema = Joi.object().keys({
 const GetSchema = Joi.object().keys({
     id: Joi.number(),
     sortBy: Joi.string(),
+    page: Joi.string(),
+    size: Joi.string(),
 })
 
 export { Pagination, Row, Get, RowSchema, GetSchema }

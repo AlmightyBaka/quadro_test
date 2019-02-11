@@ -1,5 +1,5 @@
-import {Get, Row} from '../server/models/types'
-import SqlProvider from './SqlProvider'
+import { Get, Row } from '../../server/models/types'
+import SqlProvider from '../SqlProvider'
 
 export default class SQL {
     public static InsertRow(row: Row): string {
@@ -12,12 +12,12 @@ export default class SQL {
         return result
     }
 
-    public static async GetRow(input: Get): string {
+    public static async GetRow(input: Get): Promise<string> {
         if (input.id) {
             return await this.Sql.ReadId(input.id)
         }
 
-        return await this.Sql.Read(input.sortBy, input.pagination)
+        return await this.Sql.Read(input.sortBy, { page: input.page, size: input.size })
     }
     private static Sql = new SqlProvider()
 }

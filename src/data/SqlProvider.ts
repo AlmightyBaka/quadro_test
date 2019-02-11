@@ -29,8 +29,6 @@ export default class SqlProvider {
 
     public ReadId = (id: number): Promise<any> => new Promise((resolve, reject) => {
         try {
-            this.connection.connect()
-
             this.connection.query(`select * from books where id = ${id}`, (err, results) => {
                 if (err) {
                     return reject (err)
@@ -38,24 +36,33 @@ export default class SqlProvider {
 
                 return resolve(results)
             })
-
-            this.connection.end()
         } catch (err) {
             return reject (err)
         }
     })
 
-    public Read(sortBy?: string, pagination?: Pagination): string {
+    public Read = (sortBy?: string, pagination?: Pagination): Promise<any> => new Promise((resolve, reject) => {
         try {
-            this.connection.connect()
+            if (!pagination) {
+                this.connection.query(`select * from books order by ${sortBy || 'id'}`, (err, results) => {
+                    if (err) {
+                        return reject(err)
+                    }
 
-            this.connection.query(`select * from books order by ${sortBy || 'id'}`)
+                    return resolve(results)
+                })
+            } else {
+                this.connection.query(`select * from books order by ${sortBy || 'id'} limit
+                ${pagination.page * pagination.size}, ${(pagination.page + 1) * pagination.size}`, (err, results) => {
+                    if (err) {
+                        return reject(err)
+                    }
 
-            this.connection.end()
-
-            return 'ok'
+                    return resolve(results)
+                })
+            }
         } catch (err) {
-            return err
+            return reject (err)
         }
-    }
+    })
 }

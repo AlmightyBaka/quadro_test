@@ -1,6 +1,6 @@
 import * as Joi from 'joi'
 
-import SQL from '../../data/Sql'
+import SQL from '../../data/models/data'
 import { Get, GetSchema, Row, RowSchema } from './types'
 
 export default class DataModel {
