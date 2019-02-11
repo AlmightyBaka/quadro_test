@@ -1,14 +1,18 @@
+import * as dotenv from 'dotenv'
 import * as mysql from 'mysql'
+
 import { Pagination } from '../server/models/types'
+
+dotenv.config()
 
 export default class SqlProvider {
     private connection
     constructor() {
         this.connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'dandy',
-            password: 'password',
-            database: 'books',
+            host: process.env.MYSQL_HOST,
+            user: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PASSWORD,
+            database: process.env.MYSQL_DATABASE,
         })
 
         this.connection.connect()
