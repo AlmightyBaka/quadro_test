@@ -24,20 +24,21 @@ router.post('/', async (ctx) => {
         return
     }
 
-    await DataModel.PostRow(ctx.request.body)
+    await DataModel.PostRow(input)
     ctx.status = 201
 
     ctx.body = 'ok'
 })
 
 router.patch('/', async (ctx) => {
-    if (!DataModel.ValidatePatchInput(ctx.request.body)) {
+    const input = DataModel.ValidatePatchInput(ctx.request.body)
+    if (input === null) {
         ctx.status = 400
         ctx.body = 'bad request'
         return
     }
 
-    // await DataModel.PatchRow(ctx.request.body)
+    await DataModel.PatchRow(input)
     ctx.status = 201
 
     ctx.body = 'ok'

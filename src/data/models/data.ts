@@ -1,15 +1,13 @@
-import { Get, Post } from '../../server/models/types'
+import {Get, Patch, Post} from '../../server/models/types'
 import SqlProvider from '../SqlProvider'
 
 export default class SQL {
-    public static InsertRow(row: Post): string {
-        const result = this.Sql.Insert({
-            ...row.row,
+    public static async InsertRow(input: Post): Promise<void> {
+        await this.Sql.Insert({
+            ...input.row,
             // replacing date to MySQL format
             date: new Date().toISOString().slice(0, 19).replace('T', ' '),
         }, 'title', 'date', 'author', 'description', 'image')
-
-        return result
     }
 
     public static async GetRow(input: Get): Promise<string> {
@@ -19,5 +17,13 @@ export default class SQL {
 
         return await this.Sql.Read(input.sortBy, { page: input.page, size: input.size })
     }
+
+    public static async UpdateRow(input: Patch): Promise<void> {
+        await this.Sql.Update(input.id, {
+            ...input.row,
+            date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        }, 'title', 'date', 'author', 'description', 'image')
+    }
+
     private static Sql = new SqlProvider()
 }

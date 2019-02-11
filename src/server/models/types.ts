@@ -46,7 +46,6 @@ const GetSchema = Joi.object().keys({
 const PatchSchema = Joi.object().keys({
     id: Joi.string().required(),
     row: Joi.object().keys({
-        id: Joi.string().required(),
         title: Joi.string(),
         date: Joi.string(),
         author: Joi.string(),

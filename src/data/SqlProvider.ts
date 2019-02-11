@@ -73,4 +73,22 @@ export default class SqlProvider {
             return reject (err)
         }
     })
+
+    public Update = (id: number, data: any, ...fields: string[]): Promise<string> => new Promise((resolve, reject) =>  {
+        try {
+            this.connection.query(`update books
+                                   set ${fields.map((field) => `${field} = "${data[field]}"`).join(', ')}
+                                   where id = ${id}`,
+                (err, results) => {
+                    if (err) {
+                        return reject (err)
+                    }
+
+                    return resolve(results)
+                })
+            return 'ok'
+        } catch (err) {
+            return err
+        }
+    })
 }

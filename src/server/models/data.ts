@@ -17,20 +17,16 @@ export default class DataModel {
         return this.parseJson<Patch>(input, PatchSchema)
     }
 
-    public static async PostRow(input: string) {
-        const row: Post = this.parseJson<Post>(input, PostSchema)
-
-        await SQL.InsertRow(row)
+    public static async PostRow(input: Post): Promise<void> {
+        await SQL.InsertRow(input)
     }
 
-    public static async GetRow(input: Get) {
+    public static async GetRow(input: Get): Promise<any> {
         return await SQL.GetRow(input)
     }
 
-    public static async PatchRow(input: string) {
-        // const get: Get = this.validateObject(input, GetSchema)
-        //
-        // return await SQL.GetRow(get)
+    public static async PatchRow(input: Patch): Promise<void> {
+        return await SQL.UpdateRow(input)
     }
 
     private static parseJson<T>(input: string, schema: ObjectSchema): T | null {
@@ -39,7 +35,6 @@ export default class DataModel {
         try {
             result = JSON.parse(input)
         } catch (err) {
-            console.log(0)
             return null
         }
 
@@ -52,7 +47,6 @@ export default class DataModel {
         if (!error) {
             return input as T
         }
-        console.log(1)
 
         return null
     }
