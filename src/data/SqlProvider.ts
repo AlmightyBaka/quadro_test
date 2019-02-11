@@ -43,7 +43,7 @@ export default class SqlProvider {
 
     public Read = (sortBy?: string, pagination?: Pagination): Promise<any> => new Promise((resolve, reject) => {
         try {
-            if (!pagination) {
+            if (!pagination.page && !pagination.size) {
                 this.connection.query(`select * from books order by ${sortBy || 'id'}`, (err, results) => {
                     if (err) {
                         return reject(err)

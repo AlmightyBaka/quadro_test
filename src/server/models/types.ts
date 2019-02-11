@@ -3,13 +3,15 @@ import * as Joi from 'joi'
 type Pagination = { page: number, size: number }
 
 type Row = {
-    row?: {
-        title?: string,
-        date?: string,
-        author?: string,
-        description?: string,
-        image?: string,
-    },
+    title?: string,
+    date?: string,
+    author?: string,
+    description?: string,
+    image?: string,
+}
+
+type Post = {
+    row?: Row,
 }
 
 type Get = {
@@ -19,12 +21,19 @@ type Get = {
     size?: number,
 }
 
-const RowSchema = Joi.object().keys({
-    title: Joi.string().required(),
-    date: Joi.string().required(),
-    author: Joi.string().required(),
-    description: Joi.string().required(),
-    image: Joi.string().required(),
+type Patch = {
+    id: number,
+    row: Row,
+}
+
+const PostSchema = Joi.object().keys({
+    row: Joi.object().keys({
+        title: Joi.string(),
+        date: Joi.string(),
+        author: Joi.string(),
+        description: Joi.string(),
+        image: Joi.string(),
+    }),
 })
 
 const GetSchema = Joi.object().keys({
@@ -34,4 +43,16 @@ const GetSchema = Joi.object().keys({
     size: Joi.string(),
 })
 
-export { Pagination, Row, Get, RowSchema, GetSchema }
+const PatchSchema = Joi.object().keys({
+    id: Joi.string().required(),
+    row: Joi.object().keys({
+        id: Joi.string().required(),
+        title: Joi.string(),
+        date: Joi.string(),
+        author: Joi.string(),
+        description: Joi.string(),
+        image: Joi.string(),
+    }),
+})
+
+export { Pagination, Post, Get, Patch, PostSchema, GetSchema, PatchSchema }

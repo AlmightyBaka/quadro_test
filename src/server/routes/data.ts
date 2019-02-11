@@ -6,17 +6,19 @@ const router = new Router()
 router.prefix('/data')
 
 router.get('/', async (ctx) => {
-    if (!DataModel.CheckGetInput(ctx.query)) {
+    const input = DataModel.ValidateGetInput(ctx.query)
+    if (input === null) {
         ctx.status = 400
         ctx.body = 'bad request'
         return
     }
 
-    ctx.body = await DataModel.GetRow(ctx.query)
+    ctx.body = await DataModel.GetRow(input)
 })
 
 router.post('/', async (ctx) => {
-    if (!DataModel.CheckPostInput(ctx.request.body)) {
+    const input = DataModel.ValidatePostInput(ctx.request.body)
+    if (input === null) {
         ctx.status = 400
         ctx.body = 'bad request'
         return
@@ -29,7 +31,16 @@ router.post('/', async (ctx) => {
 })
 
 router.patch('/', async (ctx) => {
-    ctx.body = 'data'
+    if (!DataModel.ValidatePatchInput(ctx.request.body)) {
+        ctx.status = 400
+        ctx.body = 'bad request'
+        return
+    }
+
+    // await DataModel.PatchRow(ctx.request.body)
+    ctx.status = 201
+
+    ctx.body = 'ok'
 })
 
 export const data = router.routes()

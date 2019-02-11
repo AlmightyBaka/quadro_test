@@ -1,8 +1,8 @@
-import { Get, Row } from '../../server/models/types'
+import { Get, Post } from '../../server/models/types'
 import SqlProvider from '../SqlProvider'
 
 export default class SQL {
-    public static InsertRow(row: Row): string {
+    public static InsertRow(row: Post): string {
         const result = this.Sql.Insert({
             ...row.row,
             // replacing date to MySQL format
