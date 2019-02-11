@@ -15,6 +15,10 @@ export default class SQL {
             return await this.Sql.ReadId(input.id)
         }
 
+        if (!input.page && ! input.size) {
+            return await this.Sql.Read(input.sortBy, { page: 0, size: 100 })
+        }
+
         return await this.Sql.Read(input.sortBy, { page: input.page, size: input.size })
     }
 
