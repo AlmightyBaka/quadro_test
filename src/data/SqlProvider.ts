@@ -10,22 +10,26 @@ export default class SqlProvider {
             password: 'password',
             database: 'books',
         })
+
+        this.connection.connect()
     }
 
-    public Insert(data: any, ...fields: string[]): string {
+    public Insert = (data: any, ...fields: string[]): Promise<string> => new Promise((resolve, reject) =>  {
         try {
-            this.connection.connect()
-
             this.connection.query(`insert into books (${fields.join(',')})
-                                    values ("${fields.map((field) => data[field]).join('","')}")`)
+                                    values ("${fields.map((field) => data[field]).join('","')}")`,
+                (err, results) => {
+                    if (err) {
+                        return reject (err)
+                    }
 
-            this.connection.end()
-
+                    return resolve(results)
+                })
             return 'ok'
         } catch (err) {
             return err
         }
-    }
+    })
 
     public ReadId = (id: number): Promise<any> => new Promise((resolve, reject) => {
         try {
