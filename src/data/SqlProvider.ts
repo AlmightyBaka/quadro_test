@@ -18,6 +18,31 @@ export default class SqlProvider {
         this.connection.connect()
     }
 
+    public createTableIfNotExists = (): Promise<string> => new Promise((resolve, reject) =>  {
+        try {
+            this.connection.query(`create table if not exists books (
+                                      id int(11) NOT NULL AUTO_INCREMENT,
+                                      title varchar(255) DEFAULT NULL,
+                                      date date DEFAULT NULL,
+                                      author varchar(255) DEFAULT NULL,
+                                      description varchar(255) DEFAULT NULL,
+                                      image varchar(255) DEFAULT NULL,
+                                      PRIMARY KEY (id)
+                                  );`,
+                (err, results) => {
+                    if (err) {
+                        return reject (err)
+                    }
+                    console.log(0)
+
+                    return resolve(results)
+                })
+            return 'ok'
+        } catch (err) {
+            return err
+        }
+    })
+
     public Insert = (data: any, ...fields: string[]): Promise<string> => new Promise((resolve, reject) =>  {
         try {
             this.connection.query(`insert into books (${fields.join(',')})

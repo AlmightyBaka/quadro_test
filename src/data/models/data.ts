@@ -6,6 +6,7 @@ const memoized = memoize()
 
 export default class SQL {
     public static async InsertRow(input: Post): Promise<void> {
+        await this.Sql.createTableIfNotExists()
         await this.Sql.Insert({
             ...input.row,
             // replacing date to MySQL format
@@ -14,6 +15,7 @@ export default class SQL {
     }
 
     public static async GetRow(input: Get): Promise<string> {
+        await this.Sql.createTableIfNotExists()
         if (input.id) {
             return await this.Sql.ReadId(input.id)
         }
@@ -27,6 +29,7 @@ export default class SQL {
     }
 
     public static async UpdateRow(input: Patch): Promise<void> {
+        await this.Sql.createTableIfNotExists()
         await this.Sql.Update(input.id, {
             ...input.row,
             // replacing date to MySQL format
